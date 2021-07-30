@@ -3,14 +3,14 @@
     <nav class="nav">
 
       <div class="nav__logo_search">
-        <a href="#" class="logo"><img src="img/logo.svg" alt="logo"></a>
-        <a href="#" class="search"><img src="img/search.svg" alt="search"></a>
+        <router-link to="/"  class="logo"><img src="img/logo.svg" alt="logo"></router-link>
+        <a  class="search"><img src="img/search.svg" alt="search"></a>
       </div>
       <div class="nav__menu">
         <label class="gamburg-menu" for="trigger"><img src="img/menu.svg" alt="menu"></label>
         <a class="profile-menu" href="#"><img src="img/profile.svg" alt="profile"></a>
-        <a class="cart-menu" href="#"><img src="img/cart.svg" alt="cart"></a>
-        <span class="cart-quantity">3</span>
+        <router-link class="cart-menu" to="Cart"><img src="img/cart.svg" alt="cart"></router-link>
+        <span class="cart-quantity">{{ cartQuantity }}</span>
         <div class="cardItem hideBlock">
           <div class="cardItem__wrapper">
             <div class="cardItem__info">
@@ -90,7 +90,12 @@
 
 <script>
 export default {
-  name: "Header"
+  name: "Header",
+  computed: {
+    cartQuantity() {
+      return this.$store.getters.getCart.reduce((acc, good) => acc + good.quantity, 0)
+    }
+  }
 }
 </script>
 
