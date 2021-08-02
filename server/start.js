@@ -25,13 +25,13 @@ app.post('/api/cart', jsonParser, (req, res) => {
 
         const cart = JSON.parse(data);
         const item = req.body;
+
         if (!cart.find(element => element.id === req.body.id)) {
             cart.push(item);
         } else {
             cart.find(element => element.id === req.body.id).quantity++;
         }
-        console.log(item);
-        console.log(cart);
+
         fs.writeFile('./server/data/cart.json', JSON.stringify(cart), (err) => {
             console.log('done');
             res.send('ok')

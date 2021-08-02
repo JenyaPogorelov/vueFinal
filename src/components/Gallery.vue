@@ -10,7 +10,8 @@
 
       <Card v-bind:key="good.id"
             v-bind:good="good"
-            v-for="good of catalog"  />
+            v-for="good of catalog"
+      />
 
     </div>
     <button class="gallery__browse_all_product">
