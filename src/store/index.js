@@ -1,10 +1,11 @@
 import { createStore } from 'vuex'
-// import {response} from "express";
 
 export default createStore({
   state: {
     catalog: [],
-    cart: []
+    cart: [],
+    filter: [],
+    filterList: []
   },
   getters: {
     getCatalog(state) {
@@ -12,18 +13,17 @@ export default createStore({
     },
     getCart(state) {
       return state.cart
+    },
+    getSearch(state) {
+      return state.filterList
     }
   },
   mutations: {
     setCatalog(state, payload) {
       state.catalog = [...state.catalog, ...payload];
-      // console.log(state.catalog);
-      // console.log(state);
     },
     setCartList(state, payload) {
-      state.cart = [...state.cart, ...payload];
-      console.log(state.cart);
-      console.log(state);
+      state.cart = payload;
     },
     addToCart(state, goodId) {
       const goodInCart = state.cart.find((good) => good.id === goodId);
@@ -32,6 +32,18 @@ export default createStore({
       } else {
         const good = state.catalog.find((good) => good.id === goodId);
         state.cart.push({...good, quantity: 1})
+      }
+    },
+    searchHandler(state, filterText = '') {
+      if (filterText) {
+        state.filterList = state.catalog.filter((element) => {
+          for (let key in element) {
+            if (key === 'id' || key === 'image' || key === 'quantity' || key === 'price') continue;
+            if (element[key].toLowerCase().indexOf(filterText) !== -1) return true;
+          }
+        });
+      } else {
+        state.filterList = state.catalog;
       }
     }
   },
@@ -53,7 +65,6 @@ export default createStore({
           })
           .then((cartList) => {
             commit('setCartList', cartList);
-            console.log(cartList);
           })
     },
 
@@ -68,7 +79,18 @@ export default createStore({
           .then((response) => {
             commit('addToCart', good.id)
           })
-    }
+    },
+
+    delCard({commit}, card) {
+      fetch('api/cart', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: card })
+      })
+          .then(() => this.dispatch('loadCart'))
+    },
   },
   modules: {
   }

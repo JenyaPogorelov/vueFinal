@@ -29,7 +29,7 @@ export default {
   },
   computed: {
     catalog() {
-      return this.$store.getters.getCatalog
+      return this.$store.getters.getSearch
     }
   }
 }

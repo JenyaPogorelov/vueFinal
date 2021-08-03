@@ -4,7 +4,7 @@
     <div class="main-cart__item_info">
       <div class="main-cart__item_info__heading">
         <h2>{{cartItem.title}}</h2>
-        <img src="img/cart/cross.svg" alt="cross" >
+        <img src="img/cart/cross.svg" alt="cross" @click="delItem">
       </div>
 
       <ul>
@@ -22,7 +22,12 @@
 <script>
 export default {
   name: "CartItem",
-  props: ['cartItem']
+  props: ['cartItem'],
+  methods: {
+    delItem() {
+      this.$store.dispatch('delCard', this.cartItem.id)
+    },
+  },
 }
 </script>
 

@@ -7,6 +7,7 @@
                   v-bind:cartItem="cartItem"
                   v-for="cartItem of cartList"
         />
+        <noCardInCart v-if="cartList.length == 0" />
 
       </div>
       <div class="main-cart__items__buttons">
@@ -37,10 +38,12 @@
 
 <script>
 import CartItem from "./CartItem.vue";
+import NoCardInCart from "./NoCardInCart.vue";
 export default {
   name: "MainCart",
   components: {
-    CartItem
+    CartItem,
+    NoCardInCart
   },
   computed: {
     cartList() {

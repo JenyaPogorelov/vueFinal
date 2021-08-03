@@ -1,6 +1,6 @@
 <template>
   <Header />
-  <router-view/>
+  <router-view />
   <Footer />
 </template>
 
@@ -15,6 +15,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('loadCatalog')
+        .then(() => this.$store.commit('searchHandler'))
     this.$store.dispatch('loadCart')
   }
 }
